@@ -1,0 +1,24 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerController.cs">
+    <Files>
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="97" Column="1" />
+      <File FileName="Assets/Scripts/DeadzoneCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PhysicsObject.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EndCastle.cs" Line="1" Column="1" />
+      <File FileName="Assets/LightningBolt/LightningBoltScript.cs" Line="303" Column="41" />
+      <File FileName="Assets/Scripts/Collectable.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EndLevel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameOverScreen.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Projectile.cs" Line="18" Column="1" />
+      <File FileName="Assets/Scripts/Cannon.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/LightningBolt/Editor/LightningBoltEditor.cs" Line="15" Column="14" />
+      <File FileName="Assets/Scripts/Alter.cs" Line="22" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
