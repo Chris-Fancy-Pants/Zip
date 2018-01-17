@@ -5,16 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A610DF89-C339-136B-1A8F-11DE9673644D}</ProjectGuid>
+    <ProjectGuid>{CA1CB487-E9A0-683D-4A88-39C65E243D62}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.0f3</UnityVersion>
     <RootNamespace></RootNamespace>
@@ -291,28 +291,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\LightningBolt\LightningBoltScript.cs" />
-    <Compile Include="Assets\RainMaker\Demo\DemoScript.cs" />
-    <Compile Include="Assets\RainMaker\Demo\DemoScript2D.cs" />
-    <Compile Include="Assets\RainMaker\Demo\DemoScriptStartRainOnSpaceBar.cs" />
-    <Compile Include="Assets\RainMaker\Prefab\BaseRainScript.cs" />
-    <Compile Include="Assets\RainMaker\Prefab\RainCollision.cs" />
-    <Compile Include="Assets\RainMaker\Prefab\RainScript.cs" />
-    <Compile Include="Assets\RainMaker\Prefab\RainScript2D.cs" />
-    <Compile Include="Assets\Scripts\Alter.cs" />
-    <Compile Include="Assets\Scripts\Cannon.cs" />
-    <Compile Include="Assets\Scripts\Collectable.cs" />
-    <Compile Include="Assets\Scripts\DeadzoneCamera.cs" />
-    <Compile Include="Assets\Scripts\EndCastle.cs" />
-    <Compile Include="Assets\Scripts\EndLevel.cs" />
-    <Compile Include="Assets\Scripts\EnemyController.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\GameOverPanel.cs" />
-    <Compile Include="Assets\Scripts\GameOverScreen.cs" />
-    <Compile Include="Assets\Scripts\PerfectPixel.cs" />
-    <Compile Include="Assets\Scripts\PhysicsObject.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Projectile.cs" />
+    <ProjectReference Include="Zip.csproj">
+      <Project>{A610DF89-C339-136B-1A8F-11DE9673644D}</Project>
+      <Name>Zip</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\LightningBolt\Editor\LightningBoltEditor.cs" />
+    <Compile Include="Assets\RainMaker\Editor\RainMakerEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\LightningBolt\Readme.txt" />

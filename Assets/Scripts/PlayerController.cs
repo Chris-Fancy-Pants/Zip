@@ -60,11 +60,22 @@ public class PlayerController : PhysicsObject
 
 
 	public GameObject gameOverScreenObject;
-	GameOverScreen gameOverScreen;
+    GameOverPanel gameOverScreen;
 
 	public float timeinc = 0.1f;
 	float timeTaken = 0;
 	public Text timeText;
+
+    [Header("Alters")]
+    public GameObject alter1Object;
+    public GameObject alter2Object;
+    public GameObject alter3Object;
+
+    Alter alter1;
+    Alter alter2;
+    Alter alter3;
+
+
     // Use this for initialization
     void Awake()
     {
@@ -74,25 +85,17 @@ public class PlayerController : PhysicsObject
         zipCharge = maxZipCharge;
         deadZoneCam = _camera.GetComponent<DeadzoneCamera>();
 		lightningScript = LightningObject.GetComponent<LightningBoltScript> ();
-		gameOverScreen = gameOverScreenObject.GetComponent<GameOverScreen> ();
 
-		Scene s = SceneManager.GetSceneByName ("TEst");
-		if (s.IsValid()) {
+        gameOverScreen = gameOverScreenObject.GetComponent<GameOverPanel> ();
 
-
-			print ("Something loaded");
+		
 
 
+        alter1 = alter1Object.GetComponent<Alter>();
+        alter2 = alter2Object.GetComponent<Alter>();
+        alter3 = alter3Object.GetComponent<Alter>();
 
-		} else {
-
-
-			print ("Noppppppe");
-
-		}
-
-	
-		StartCoroutine ("TimeKeeper");
+        StartCoroutine ("TimeKeeper");
 		//print ("GameManager: " + GameManager.instance.trials);
     }
 
@@ -113,18 +116,24 @@ public class PlayerController : PhysicsObject
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(zipIndicator.transform.position, zipIndicatorHitRadius);
+        
     }
 
     protected override void ComputeVelocity()
     {
-		if (!gameOver) {
+        
+
+        if (!gameOver) {
 			
 			Vector2 move = Vector2.zero;
 			bool overObject = true;
 
 			if (shouldFall == 0) {
 				overObject = Physics2D.OverlapCircle (zipIndicator.transform.position, zipIndicatorHitRadius, zipIndicatorLayerMask);
-			} else {
+               
+               
+
+            } else {
 				move.x = Input.GetAxis ("Horizontal");
 			}
         
@@ -361,7 +370,7 @@ public class PlayerController : PhysicsObject
 
 		if (col.CompareTag ("InsideCastle")) {
 
-			gameOverScreen.UpdateGameOver (bolts, timeTaken);
+			gameOverScreen.UpdateGameOver (bolts, timeTaken, alter1.activated, alter2.activated, alter3.activated);
 
 		}
 

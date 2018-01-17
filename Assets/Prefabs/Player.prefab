@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114577552548653350}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,7 +202,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1408690623940508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04996109, y: -4, z: 0}
+  m_LocalPosition: {x: -6.6, y: -2.7, z: 0}
   m_LocalScale: {x: 0.3828421, y: 0.38284206, z: 0.38284206}
   m_Children:
   - {fileID: 4695020378542544}
@@ -678,7 +678,7 @@ MonoBehaviour:
   zipIndicatorLayerMask:
     serializedVersion: 2
     m_Bits: 4294967039
-  zipIndicatorHitRadius: 0.52
+  zipIndicatorHitRadius: 0.3
   zipChargeText: {fileID: 0}
   zipRechargeSpeed: 0.05
   zipChargeCost: 13.68
@@ -723,8 +723,8 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2109246717
-  m_SortingLayer: 12
+  m_SortingLayerID: 1103652553
+  m_SortingLayer: 3
   m_SortingOrder: 16
   m_Positions: []
   m_Parameters:
@@ -815,8 +815,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2109246717
-  m_SortingLayer: 12
+  m_SortingLayerID: 1103652553
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300004, guid: 7c266a8a46add184690a9db7e0a86c1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.516}
@@ -859,8 +859,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1310902499
-  m_SortingLayer: 9
+  m_SortingLayerID: 1103652553
+  m_SortingLayer: 3
   m_SortingOrder: 490
   m_Sprite: {fileID: 21300000, guid: 6fd67452a90b445cb8dc99648f6a69e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

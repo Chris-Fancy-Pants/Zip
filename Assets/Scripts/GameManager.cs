@@ -7,11 +7,16 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
 
-	public static GameManager instance = null;   
+	public static GameManager instance = null;
 
-	public Dictionary<int, int> trials = new Dictionary<int, int> ();
-	// Use this for initialization
-	void Awake()
+    public int[] trialCounts;
+
+
+    
+
+
+
+    void Awake()
 	{
 		//Check if instance already exists
 		if (instance == null)
