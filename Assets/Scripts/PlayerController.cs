@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 public class PlayerController : PhysicsObject
 {
 
+
+    public int health = 3;
+
 	[Header("Sound Effects")]
 	public AudioSource jumpSound;
 	public AudioSource footstep;
@@ -76,6 +79,10 @@ public class PlayerController : PhysicsObject
     Alter alter3;
 
 
+
+    [Header("HUD")]
+    public Text healthText;
+
     // Use this for initialization
     void Awake()
     {
@@ -96,7 +103,8 @@ public class PlayerController : PhysicsObject
         alter3 = alter3Object.GetComponent<Alter>();
 
         StartCoroutine ("TimeKeeper");
-		//print ("GameManager: " + GameManager.instance.trials);
+        //print ("GameManager: " + GameManager.instance.trials);
+        SetHealthText();
     }
 
 
@@ -340,6 +348,12 @@ public class PlayerController : PhysicsObject
         if(collision.gameObject.CompareTag("Enemy"))
         {
             print("Hit Enemy");
+            health -= 1;
+            SetHealthText();
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            enemy.DestroyEnemy();
+            
+            
         }
 
         print("HIT");
@@ -412,6 +426,11 @@ public class PlayerController : PhysicsObject
 
 	}
 
+
+    void SetHealthText()
+    {
+        healthText.text = "Health: " + health.ToString();
+    }
 
 
 }

@@ -300,11 +300,14 @@
     <Compile Include="Assets\RainMaker\Prefab\RainScript.cs" />
     <Compile Include="Assets\RainMaker\Prefab\RainScript2D.cs" />
     <Compile Include="Assets\Scripts\Alter.cs" />
+    <Compile Include="Assets\Scripts\Arrow.cs" />
+    <Compile Include="Assets\Scripts\ArrowSpawnner.cs" />
     <Compile Include="Assets\Scripts\Cannon.cs" />
     <Compile Include="Assets\Scripts\Collectable.cs" />
     <Compile Include="Assets\Scripts\DeadzoneCamera.cs" />
     <Compile Include="Assets\Scripts\EndCastle.cs" />
     <Compile Include="Assets\Scripts\EndLevel.cs" />
+    <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameOverPanel.cs" />
