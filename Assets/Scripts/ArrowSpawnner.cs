@@ -25,7 +25,7 @@ public class ArrowSpawnner : MonoBehaviour {
         float speed = Random.Range(minSpeed, maxSpeed);
         GameObject arrowObject = Instantiate(arrowPrefab, transform.position, transform.rotation) as GameObject;
         Arrow arrow = arrowObject.GetComponent<Arrow>();
-        arrow.FireArrow(speed, true);
+        arrow.FireArrow(speed);
         Invoke("FireArrow", 3f);
 
 
