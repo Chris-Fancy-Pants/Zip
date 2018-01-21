@@ -35,7 +35,11 @@ public class GameManager : MonoBehaviour {
 
 	}
 
-	void Start () {
+	/// <summary>
+    /// 
+    /// </summary>
+    void Start () {
+        /*
 		Scene scene = SceneManager.GetActiveScene ();
 		string levelNum = scene.name.Substring (5);
 		print ("Level number " + levelNum);
@@ -44,7 +48,7 @@ public class GameManager : MonoBehaviour {
 		print ("Trial: " + LSSplit[0]);
 		print ("Level: " + LSSplit[1]);
 		//int levelInt = int.Parse (levelNum);
-	
+	*/
 
 	}
 	

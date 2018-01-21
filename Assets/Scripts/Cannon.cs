@@ -15,7 +15,7 @@ public class Cannon : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        player = GameObject.Find("Player");
+        player = GameObject.Find("PlayerNew");
 	}
 
 
