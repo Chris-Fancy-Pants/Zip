@@ -25,8 +25,9 @@ public class Player : MonoBehaviour {
 
 
     bool zipIndicatorOverObject = false;
+    bool doingZip = false;
 
-
+    public float zipSpeed;
 
     Rigidbody2D _rigidbody;
     Animator _animator;
@@ -80,8 +81,12 @@ public class Player : MonoBehaviour {
             directionToMove = 0;
         }
 
-      
-        _rigidbody.velocity = new Vector2(moveSpeed * directionToMove, _rigidbody.velocity.y);
+
+        if (!doingZip)
+        {
+            _rigidbody.velocity = new Vector2(moveSpeed * directionToMove, _rigidbody.velocity.y);
+            _rigidbody.gravityScale = 2;
+        }
 
 
         previousDirection = direction;
@@ -105,7 +110,7 @@ public class Player : MonoBehaviour {
             StopZip();
         }
 
-        _rigidbody.gravityScale = 2;
+        
 
         if (zipping)
         {
@@ -136,7 +141,7 @@ public class Player : MonoBehaviour {
 
         }
 
-
+        _animator.SetBool("doindZip", doingZip);
         _animator.SetFloat("velocityX", Mathf.Abs(_rigidbody.velocity.x));
         _animator.SetBool("grounded", grounded);
         _animator.SetFloat("velocityY", _rigidbody.velocity.y);
@@ -150,15 +155,38 @@ public class Player : MonoBehaviour {
     }
 
 
+    IEnumerator DoZip()
+    {
+        print("Start coroutine");
+        zipIndicatorObject.transform.SetParent(null);
+        _rigidbody.gravityScale = 0;
+        
+        while (Vector2.Distance(transform.position, zipIndicatorObject.transform.position) > 0.1f)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, zipIndicatorObject.transform.position, zipSpeed);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        print("In coroutine before 2 sec pause");
+        yield return new WaitForSeconds(2f);
+        print("In coroutine after 2 sec pause");
+        zipIndicatorObject.transform.position = transform.position;
+        doingZip = false;
+        //_rigidbody.gravityScale = 2;
+        _rigidbody.isKinematic = false;
+    }
+
     void StopZip()
     {
         zipping = false;
         zipIndicatorObject.SetActive(false);
         if (!zipIndicatorOverObject)
         {
-            transform.position = zipIndicatorObject.transform.position;
+            //transform.position = zipIndicatorObject.transform.position;
+            doingZip = true;
+            StartCoroutine("DoZip");
         }
-        zipIndicatorObject.transform.position = transform.position;
+        
 
 
     }
