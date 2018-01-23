@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4200226528831626}
   - component: {fileID: 61121380123443468}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SafeCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 114700442119022374}
   - component: {fileID: 60893064435590562}
   - component: {fileID: 50856265407783002}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Arrow
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1339851991849872}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3a969a3dc2b7d3d49bf25427efe90db8, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

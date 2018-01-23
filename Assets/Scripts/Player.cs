@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DigitalRuby.LightningBolt;
 
 public class Player : MonoBehaviour {
 
@@ -13,9 +14,16 @@ public class Player : MonoBehaviour {
     [Header("Ground Check Transforms")]
     public Transform frontGroundCheck;
     public Transform backGroundCheck;
+    public Transform centreGroundCheck;
     public LayerMask groundCheckLayerMask;
     public float groundCheckRadius = 0.1f;
     float previousDirection = 1;
+
+
+    LightningBoltScript lightningScript; 
+    public GameObject lightningObject;
+
+    public GameObject zipMoveObject;
 
     bool zipping = false;
     public float zipIndicatorRadius = 0.2f;
@@ -34,11 +42,20 @@ public class Player : MonoBehaviour {
 
     bool jumping = false;
     public bool grounded = false;
+
+
+    public AudioSource footStepAudio;
+
+
     // Use this for initialization
     void Start () {
+
+        zipMoveObject.SetActive(false);
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-	}
+        lightningScript = lightningObject.GetComponent<LightningBoltScript>();
+
+    }
 
 
 
@@ -55,8 +72,8 @@ public class Player : MonoBehaviour {
         float horizontal = Input.GetAxis("Horizontal");
 
         bool groundedFront = Physics2D.OverlapCircle(frontGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
-        bool groundedBack = Physics2D.OverlapCircle(backGroundCheck.position, groundCheckRadius, groundCheckLayerMask); ;
-
+        bool groundedBack = Physics2D.OverlapCircle(backGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
+        bool groundedCentre = Physics2D.OverlapCircle(centreGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
 
         grounded = (groundedBack || groundedFront);
 
@@ -116,7 +133,7 @@ public class Player : MonoBehaviour {
         {
             _rigidbody.gravityScale = 0;
             _rigidbody.velocity = Vector2.zero;
-
+            lightningScript.SetLightningPos(transform.position, zipIndicatorObject.transform.position);
             zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius);
 
             float zipIndicatorHorizontal = Input.GetAxis("Horizontal");
@@ -141,7 +158,7 @@ public class Player : MonoBehaviour {
 
         }
 
-        _animator.SetBool("doindZip", doingZip);
+        
         _animator.SetFloat("velocityX", Mathf.Abs(_rigidbody.velocity.x));
         _animator.SetBool("grounded", grounded);
         _animator.SetFloat("velocityY", _rigidbody.velocity.y);
@@ -152,28 +169,45 @@ public class Player : MonoBehaviour {
     {
         zipping = true;
         zipIndicatorObject.SetActive(true);
+        lightningObject.SetActive(true);
+        lightningScript.FireLightning(transform.position, zipIndicatorObject.transform.position);
     }
 
 
     IEnumerator DoZip()
     {
-        print("Start coroutine");
+
+
+        spriteRenderer.enabled = false;
+        zipMoveObject.SetActive(true);
+
         zipIndicatorObject.transform.SetParent(null);
+        zipMoveObject.transform.SetParent(null);
         _rigidbody.gravityScale = 0;
+        _rigidbody.isKinematic = true;
+
+
+
         
-        while (Vector2.Distance(transform.position, zipIndicatorObject.transform.position) > 0.1f)
+        while (Vector2.Distance(zipMoveObject.transform.position, zipIndicatorObject.transform.position) > 0.1f)
         {
-            transform.position = Vector2.MoveTowards(transform.position, zipIndicatorObject.transform.position, zipSpeed);
-            yield return new WaitForSeconds(0.1f);
+            zipMoveObject.transform.position = Vector2.MoveTowards(zipMoveObject.transform.position, zipIndicatorObject.transform.position, zipSpeed);
+            yield return new WaitForEndOfFrame();
         }
 
-        print("In coroutine before 2 sec pause");
-        yield return new WaitForSeconds(2f);
-        print("In coroutine after 2 sec pause");
         zipIndicatorObject.transform.position = transform.position;
+        zipIndicatorObject.transform.SetParent(transform);
         doingZip = false;
+        zipMoveObject.SetActive(false);
+
+        transform.position = zipMoveObject.transform.position;
+        zipMoveObject.transform.position = transform.position;
+        zipMoveObject.transform.SetParent(transform);
+        spriteRenderer.enabled = transform;
+
         //_rigidbody.gravityScale = 2;
         _rigidbody.isKinematic = false;
+        _animator.SetBool("doindZip", false);
     }
 
     void StopZip()
@@ -182,12 +216,14 @@ public class Player : MonoBehaviour {
         zipIndicatorObject.SetActive(false);
         if (!zipIndicatorOverObject)
         {
+           
             //transform.position = zipIndicatorObject.transform.position;
             doingZip = true;
             StartCoroutine("DoZip");
         }
-        
 
+        lightningScript.StopLightning();
+        lightningObject.SetActive(false);
 
     }
 
@@ -197,4 +233,14 @@ public class Player : MonoBehaviour {
             _rigidbody.AddForce(jumpForce);
 
     }
+
+    public void PlayFootStep()
+    {
+        footStepAudio.Play();
+    }
+
+
+
+ 
+
 }
