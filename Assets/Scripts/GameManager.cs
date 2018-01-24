@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour {
     public int[] trialCounts;
 
 
-    
 
-
+    public int boltsThisTrial;
+    public bool trialRunning = true;
 
     void Awake()
 	{

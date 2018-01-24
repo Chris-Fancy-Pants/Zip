@@ -11,35 +11,55 @@ public class GameOverPanel : MonoBehaviour {
     public Text bolts;
     public Text time;
 
-    public Image alter1;
-    public Image alter2;
-    public Image alter3;
+    public Image alter1Image;
+    public GameObject alter1Object;
+    Alter alter1;
 
+
+    public Image alter2Image;
+    public GameObject alter2Object;
+    Alter alter2;
+
+
+    public Image alter3Image;
+    public GameObject alter3Object;
+    Alter alter3;
 
     bool gameOverActive = false;
 
 
     public GameObject gameOverWindow;
 
-    public void UpdateGameOver(int bolts, float time, bool alter1, bool alter2, bool alter3)
+    void Start()
     {
-        this.bolts.text = "Bolts: " + bolts.ToString();
-        this.time.text = "Time: " + time.ToString("N2");
+        GameManager.instance.boltsThisTrial = 0;
+        alter1 = alter1Object.GetComponent<Alter>();
+        alter2 = alter2Object.GetComponent<Alter>();
+        alter3 = alter3Object.GetComponent<Alter>();
+    }
 
-        if(alter1)
+
+
+    public void UpdateGameOver()
+    {
+
+        print("UpdateGameOver");
+
+        this.bolts.text = "Bolts: " + GameManager.instance.boltsThisTrial.ToString();
+
+        if(alter1.activated)
         {
-            this.alter1.color = Color.white;
+            this.alter1Image.color = Color.white;
         }
-        if (alter2)
+        if (alter2.activated)
         {
-            this.alter2.color = Color.white;
+            this.alter2Image.color = Color.white;
         }
-        if (alter3)
+        if (alter3.activated)
         {
-            this.alter3.color = Color.white;
+            this.alter3Image.color = Color.white;
         }
 
-        print(time.ToString());
 
 
         gameOverWindow.SetActive(true);
@@ -48,9 +68,6 @@ public class GameOverPanel : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
-		
-	}
 
 
 

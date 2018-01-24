@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DigitalRuby.LightningBolt;
 
 public class Player : MonoBehaviour {
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour {
     public LayerMask groundCheckLayerMask;
     public float groundCheckRadius = 0.1f;
     float previousDirection = 1;
-
+    public float zipCoolDown = 2f;
 
     LightningBoltScript lightningScript; 
     public GameObject lightningObject;
@@ -32,6 +33,11 @@ public class Player : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
 
 
+
+    public Text healthText;
+    public Text zipCharge;
+    public AudioSource zipArcSound;
+
     bool zipIndicatorOverObject = false;
     bool doingZip = false;
 
@@ -43,13 +49,20 @@ public class Player : MonoBehaviour {
     bool jumping = false;
     public bool grounded = false;
 
+    public int bolts = 0;
+    public int health = 3;
+
+    bool canZip = true;
 
     public AudioSource footStepAudio;
+    bool gameOverRunStarted = false;
+
+    bool hurt = false;
 
 
     // Use this for initialization
     void Start () {
-
+        healthText.text = "Health: " + health.ToString();
         zipMoveObject.SetActive(false);
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -61,116 +74,185 @@ public class Player : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(frontGroundCheck.position, groundCheckRadius);
-        Gizmos.DrawSphere(backGroundCheck.position, groundCheckRadius);
-        Gizmos.DrawSphere(zipIndicatorObject.transform.position, zipIndicatorRadius);
+       // Gizmos.DrawSphere(frontGroundCheck.position, groundCheckRadius);
+       // Gizmos.DrawSphere(backGroundCheck.position, groundCheckRadius);
+       // Gizmos.DrawSphere(zipIndicatorObject.transform.position, zipIndicatorRadius);
 
     }
     // Update is called once per frame
     void Update () {
 
-        float horizontal = Input.GetAxis("Horizontal");
-
-        bool groundedFront = Physics2D.OverlapCircle(frontGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
-        bool groundedBack = Physics2D.OverlapCircle(backGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
-        bool groundedCentre = Physics2D.OverlapCircle(centreGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
-
-        grounded = (groundedBack || groundedFront);
-
-        float direction = 1f;
-        float directionToMove = 1f;
-
-
-        if(horizontal > 0.01)
+        if (GameManager.instance.trialRunning)
         {
-            direction = 1;
-            directionToMove = direction;
-            spriteRenderer.flipX = false;
 
-        } else if(horizontal < -0.01)
-        {
-            direction = -1;
-            directionToMove = direction;
-            spriteRenderer.flipX = true;
 
-        } else
+            float horizontal = Input.GetAxis("Horizontal");
+
+            grounded = IsGrounded();
+
+            float direction = 1f;
+            float directionToMove = 1f;
+
+
+            if (horizontal > 0.01)
+            {
+                direction = 1;
+                directionToMove = direction;
+                spriteRenderer.flipX = false;
+
+            }
+            else if (horizontal < -0.01)
+            {
+                direction = -1;
+                directionToMove = direction;
+                spriteRenderer.flipX = true;
+
+            }
+            else
+            {
+                directionToMove = 0;
+            }
+
+
+            if (!doingZip)
+            {
+                _rigidbody.velocity = new Vector2(moveSpeed * directionToMove, _rigidbody.velocity.y);
+                _rigidbody.gravityScale = 2;
+            }
+
+
+            previousDirection = direction;
+
+
+
+            HandleInput();
+
+
+            if (zipping)
+            {
+                HandleZip();
+            }
+
+
+            HandleAnimator();
+        }
+        else
         {
-            directionToMove = 0;
+            if(!gameOverRunStarted)
+            {
+                gameOverRunStarted = true;
+                _rigidbody.velocity = Vector2.zero;
+                _animator.SetFloat("velocityX", 0);
+                Invoke("GameOverRun", 3f);
+                print("End Run Update: " + Time.time);
+            }
+            
         }
 
 
-        if (!doingZip)
-        {
-            _rigidbody.velocity = new Vector2(moveSpeed * directionToMove, _rigidbody.velocity.y);
-            _rigidbody.gravityScale = 2;
-        }
 
 
-        previousDirection = direction;
-       
+    }
 
+
+    void GameOverRun()
+    {
+        print("GameOverRun: " + Time.time);
+        _rigidbody.velocity = new Vector2(10, 0);
+        _animator.SetFloat("velocityX", Mathf.Abs(_rigidbody.velocity.x));
+    }
+
+    public void EndRunOver()
+    {
+        _animator.SetFloat("velocityX", 0);
+    }
+
+
+
+    void HandleInput()
+    {
         if (Input.GetButtonDown("Jump") && grounded)
         {
             Jump();
         }
 
 
-        if(Input.GetButtonDown("Fire1") && !grounded)
+        if (Input.GetButtonDown("Fire1") && !grounded)
         {
 
             StartZip();
 
         }
 
-        if(Input.GetButtonUp("Fire1") && zipping)
+        if (Input.GetButtonUp("Fire1") && zipping)
         {
             StopZip();
         }
+    }
 
-        
+    bool IsGrounded()
+    {
+        bool groundedFront = Physics2D.OverlapCircle(frontGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
+        bool groundedBack = Physics2D.OverlapCircle(backGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
+        bool groundedCentre = Physics2D.OverlapCircle(centreGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
 
-        if (zipping)
+
+      
         {
-            _rigidbody.gravityScale = 0;
-            _rigidbody.velocity = Vector2.zero;
-            lightningScript.SetLightningPos(transform.position, zipIndicatorObject.transform.position);
-            zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius);
 
-            float zipIndicatorHorizontal = Input.GetAxis("Horizontal");
-            float zipIndicatorVertical = Input.GetAxis("Vertical");
-
-            Vector2 newIndicatorPosition = new Vector2(zipIndicatorObject.transform.position.x + zipIndicatorHorizontal, zipIndicatorObject.transform.position.y + zipIndicatorVertical);
-            // TODO: Add vertical movement to zipIndicator
-            if (Vector2.Distance(transform.position, newIndicatorPosition) < 5)
-            {
-                zipIndicatorObject.transform.position = newIndicatorPosition;
-            }
-
-
-            if(zipIndicatorOverObject)
-            {
-                zipIndicatorObject.GetComponent<SpriteRenderer>().color = Color.red;
-            } else
-            {
-                zipIndicatorObject.GetComponent<SpriteRenderer>().color = Color.white;
-            }
-
-
+            return ((groundedBack || groundedFront) && groundedCentre);
         }
+   
+    }
 
-        
+    void HandleAnimator()
+    {
         _animator.SetFloat("velocityX", Mathf.Abs(_rigidbody.velocity.x));
         _animator.SetBool("grounded", grounded);
         _animator.SetFloat("velocityY", _rigidbody.velocity.y);
     }
 
 
+    void HandleZip()
+    {
+        _rigidbody.gravityScale = 0;
+        _rigidbody.velocity = Vector2.zero;
+        lightningScript.SetLightningPos(transform.position, zipIndicatorObject.transform.position);
+        zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius);
+
+        float zipIndicatorHorizontal = Input.GetAxis("Horizontal");
+        float zipIndicatorVertical = Input.GetAxis("Vertical");
+
+        Vector2 newIndicatorPosition = new Vector2(zipIndicatorObject.transform.position.x + zipIndicatorHorizontal, zipIndicatorObject.transform.position.y + zipIndicatorVertical);
+        // TODO: Add vertical movement to zipIndicator
+        if (Vector2.Distance(transform.position, newIndicatorPosition) < 5)
+        {
+            zipIndicatorObject.transform.position = newIndicatorPosition;
+        }
+
+
+        if (zipIndicatorOverObject)
+        {
+            zipIndicatorObject.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else
+        {
+            zipIndicatorObject.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
+
+
     void StartZip()
     {
-        zipping = true;
-        zipIndicatorObject.SetActive(true);
-        lightningObject.SetActive(true);
-        lightningScript.FireLightning(transform.position, zipIndicatorObject.transform.position);
+        if (canZip)
+        {
+            zipping = true;
+            zipIndicatorObject.SetActive(true);
+            lightningObject.SetActive(true);
+            lightningScript.FireLightning(transform.position, zipIndicatorObject.transform.position);
+            zipArcSound.Play();
+            canZip = false;
+        }
     }
 
 
@@ -224,8 +306,30 @@ public class Player : MonoBehaviour {
 
         lightningScript.StopLightning();
         lightningObject.SetActive(false);
-
+        zipArcSound.Stop();
+        StartCoroutine("ResetZip");
     }
+
+
+    IEnumerator ResetZip()
+    {
+
+        float count = 0;
+
+        zipCharge.text = "Charge: " + count.ToString();
+
+        while (count < zipCoolDown)
+        {
+            count += Time.deltaTime;
+            zipCharge.text = "Charge: " + count.ToString();
+            yield return new WaitForEndOfFrame();
+        }
+        canZip = true;
+        zipCharge.text = "ZIP!";
+    }
+
+
+
 
     void Jump()
     {
@@ -241,6 +345,30 @@ public class Player : MonoBehaviour {
 
 
 
- 
+    public void AddBolt(int boltAmount)
+    {
+        bolts += boltAmount;
+
+    }
+
+
+    public void takeDamage(int damage)
+    {
+
+        if (!hurt)
+        {
+            _animator.SetTrigger("flicker");
+            health -= damage;
+            healthText.text = "Health: " + health.ToString();
+            hurt = true;
+        }
+    }
+
+
+    public void FlickerEnd()
+    {
+        hurt = false;
+    }
+
 
 }

@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour {
 
 
     public GameObject explosionCloud;
+    public int damage = 1;
+
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +20,7 @@ public class Enemy : MonoBehaviour {
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-
+            collision.gameObject.GetComponent<Player>().takeDamage(damage);
         }
 
         DestroyEnemy();

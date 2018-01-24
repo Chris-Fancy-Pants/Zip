@@ -7,15 +7,22 @@ public class Collectable : MonoBehaviour {
 	public AudioSource collect;
 	public SpriteRenderer sprite;
 
+    public int value = 1;
 
 
-	public void CollectItem() {
+    private void Start()
+    {
+    }
+
+    public void CollectItem(Player player) {
 
 		PlayCollectSound ();
 		sprite.enabled = false;
 		GetComponent<Collider2D> ().enabled = false;
+        GameManager.instance.boltsThisTrial++;
+        player.AddBolt(this.value);
 
-	}
+    }
 
 
 
@@ -23,5 +30,13 @@ public class Collectable : MonoBehaviour {
 		collect.Play();
 	}
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            CollectItem(collision.gameObject.GetComponent<Player>());
+        }
+    }
 
 }

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Alter
+  - Bolt
+  - End Level
+  - InsideCastle
+  - Enemy
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Collectable
+  - Player
+  - ArrowTip
+  - ArrowShaft
+  - Cannon
+  - CannonBall
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 751095119
+    locked: 0
+  - name: Trees
+    uniqueID: 3260195893
+    locked: 0
+  - name: Tiles
+    uniqueID: 3911653219
+    locked: 0
+  - name: Player
+    uniqueID: 1103652553
+    locked: 0
+  - name: Foreground1
+    uniqueID: 4293768865
+    locked: 0

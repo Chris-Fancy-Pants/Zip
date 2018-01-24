@@ -11,6 +11,9 @@ public class SteelDoor : MonoBehaviour {
 
     public float speed = 0.001f;
 
+
+    public AudioSource doorMoving;
+
     public enum Action
     {
         Open,
@@ -29,6 +32,7 @@ public class SteelDoor : MonoBehaviour {
 
     IEnumerator OpenDoor()
     {
+        doorMoving.Play();
 
         while(doorObject.transform.position.y < openPosition.position.y)
         {
@@ -36,7 +40,7 @@ public class SteelDoor : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
 
-
+        doorMoving.Stop();
         yield return null;
     }
 

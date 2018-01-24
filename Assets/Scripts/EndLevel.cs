@@ -13,6 +13,16 @@ public class EndLevel : MonoBehaviour {
             GameObject endCastleObject = GameObject.Find("End Castle");
             EndCastle endCastle = endCastleObject.GetComponent<EndCastle>();
             endCastle.AwakeEndCastle();
+            print("End Level Collision");
+            GameManager.instance.trialRunning = false;
+
+            GameObject hazards = GameObject.Find("Hazards");
+
+            foreach(Transform t in hazards.transform)
+            {
+                Destroy(t.gameObject);
+            }
+
         }
     }
 

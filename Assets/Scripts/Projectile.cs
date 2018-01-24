@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour {
 
 
     public GameObject ExplosionCloud;
-
+    public int damage = 1;
     Collider2D col;
     SpriteRenderer sRenderer;
 
@@ -18,6 +18,10 @@ public class Projectile : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<Player>().takeDamage(damage);
+        }
         Instantiate(ExplosionCloud, transform.position, transform.rotation);
         RemoveSpriteAndCollider();
     }
@@ -26,6 +30,7 @@ public class Projectile : MonoBehaviour {
     {
         col.enabled = false;
         sRenderer.enabled = false;
+        Destroy(this.gameObject);
     }
 
 

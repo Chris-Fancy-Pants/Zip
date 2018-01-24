@@ -376,7 +376,7 @@ public class PlayerController : PhysicsObject
 
 
 			Collectable collectable = col.GetComponent<Collectable> ();
-			collectable.CollectItem ();
+		//	collectable.CollectItem ();
 			bolts++;
 
 
@@ -384,7 +384,7 @@ public class PlayerController : PhysicsObject
 
 		if (col.CompareTag ("InsideCastle")) {
 
-			gameOverScreen.UpdateGameOver (bolts, timeTaken, alter1.activated, alter2.activated, alter3.activated);
+			//gameOverScreen.UpdateGameOver (bolts, timeTaken, alter1.activated, alter2.activated, alter3.activated);
 
 		}
 
