@@ -10,6 +10,8 @@ public class Projectile : MonoBehaviour {
     Collider2D col;
     SpriteRenderer sRenderer;
 
+	public AudioSource explosion;
+
 	// Use this for initialization
 	void Start () {
         col = GetComponent<Collider2D>();
@@ -28,9 +30,10 @@ public class Projectile : MonoBehaviour {
 
     void RemoveSpriteAndCollider()
     {
+		explosion.Play ();
         col.enabled = false;
         sRenderer.enabled = false;
-        Destroy(this.gameObject);
+        Destroy(this.gameObject, 2f);
     }
 
 

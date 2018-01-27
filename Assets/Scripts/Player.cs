@@ -54,11 +54,15 @@ public class Player : MonoBehaviour {
 
     bool canZip = true;
 
+
+	public AudioSource jumpSound;
     public AudioSource footStepAudio;
     bool gameOverRunStarted = false;
 
     bool hurt = false;
 
+
+	public GameObject deathPanel;
 
     // Use this for initialization
     void Start () {
@@ -67,6 +71,7 @@ public class Player : MonoBehaviour {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         lightningScript = lightningObject.GetComponent<LightningBoltScript>();
+		GameManager.instance.trialRunning = true;
 
     }
 
@@ -138,13 +143,13 @@ public class Player : MonoBehaviour {
         }
         else
         {
-            if(!gameOverRunStarted)
+			if(!gameOverRunStarted && health > 0)
             {
                 gameOverRunStarted = true;
                 _rigidbody.velocity = Vector2.zero;
                 _animator.SetFloat("velocityX", 0);
                 Invoke("GameOverRun", 3f);
-                print("End Run Update: " + Time.time);
+            
             }
             
         }
@@ -157,7 +162,7 @@ public class Player : MonoBehaviour {
 
     void GameOverRun()
     {
-        print("GameOverRun: " + Time.time);
+       
         _rigidbody.velocity = new Vector2(10, 0);
         _animator.SetFloat("velocityX", Mathf.Abs(_rigidbody.velocity.x));
     }
@@ -334,7 +339,8 @@ public class Player : MonoBehaviour {
     void Jump()
     {
 
-            _rigidbody.AddForce(jumpForce);
+    	_rigidbody.AddForce(jumpForce);
+		jumpSound.Play ();
 
     }
 
@@ -357,12 +363,27 @@ public class Player : MonoBehaviour {
 
         if (!hurt)
         {
-            _animator.SetTrigger("flicker");
-            health -= damage;
-            healthText.text = "Health: " + health.ToString();
-            hurt = true;
+			health -= damage;
+
+			if (health <= 0) {
+				HandleDeath ();
+			} else {
+				_animator.SetTrigger ("flicker");
+
+				healthText.text = "Health: " + health.ToString ();
+				hurt = true;
+			}
         }
     }
+
+	void HandleDeath() {
+
+		deathPanel.SetActive (true);
+		DeathPanel dPanel = deathPanel.GetComponent<DeathPanel> ();
+		dPanel.ShowDeathPanel ();
+		GameManager.instance.trialRunning = false;
+
+	}
 
 
     public void FlickerEnd()
@@ -372,3 +393,10 @@ public class Player : MonoBehaviour {
 
 
 }
+
+
+/// DM-CGS-33 - zip spund
+/// DM-CGS-34 - zip spund
+/// /// DM-CGS-39 - zip spund
+/// 
+/// DM-CGS-48 metal door close

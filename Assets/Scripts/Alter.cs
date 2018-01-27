@@ -6,14 +6,16 @@ public class Alter : MonoBehaviour {
 
 	public GameObject alterChargeBolt;
     public bool activated = false;
+	public AudioSource alterSound;
 
 	void OnTriggerEnter2D(Collider2D col) {
 
-
-		if (col.CompareTag ("Player")) {
-            PlayerController player = col.gameObject.GetComponent<PlayerController>();
-            ActivateAlter(player);
-            activated = true;
+		if (!activated) {
+			if (col.CompareTag ("Player")) {
+				PlayerController player = col.gameObject.GetComponent<PlayerController> ();
+				ActivateAlter (player);
+				activated = true;
+			}
 		}
 
 	}
@@ -22,6 +24,8 @@ public class Alter : MonoBehaviour {
 
 	void ActivateAlter(PlayerController player) {
 
+
+		alterSound.Play ();
 		alterChargeBolt.SetActive (true);
 	}
 

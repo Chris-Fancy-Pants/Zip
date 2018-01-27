@@ -52,10 +52,16 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\LightningBolt\Editor\LightningBoltEditor.cs" />
-     <Compile Include="Assets\RainMaker\Editor\RainMakerEditor.cs" />
+     <Compile Include="Assets\Tilemap\Brushes\Coordinate Brush\Scripts\Editor\CoordinateBrush.cs" />
+     <Compile Include="Assets\Tilemap\Brushes\GameObject Brush\Scripts\Editor\GameObjectBrush.cs" />
+     <Compile Include="Assets\Tilemap\Brushes\Line Brush\Scripts\Editor\LineBrush.cs" />
+     <Compile Include="Assets\Tilemap\Brushes\Prefab Brush\Scripts\Editor\PrefabBrush.cs" />
+     <Compile Include="Assets\Tilemap\Brushes\Random Brush\Scripts\Editor\RandomBrush.cs" />
+     <Compile Include="Assets\Tilemap\Brushes\Tint Brush Smooth\Scripts\Editor\TintBrushSmooth.cs" />
+     <Compile Include="Assets\Tilemap\Brushes\Tint Brush\Scripts\Editor\TintBrush.cs" />
+     <Compile Include="Assets\Tilemap\Tiles\Rule Tile\Scripts\Editor\RuleTileEditor.cs" />
+     <None Include="Assets\Tilemap\Brushes\Tint Brush Smooth\Shaders\TintedTilemap.shader" />
      <None Include="Assets\LightningBolt\Readme.txt" />
-     <None Include="Assets\RainMaker\Prefab\RainShader.shader" />
-     <None Include="Assets\RainMaker\Readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

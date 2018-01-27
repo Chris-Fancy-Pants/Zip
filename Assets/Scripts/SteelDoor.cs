@@ -23,7 +23,7 @@ public class SteelDoor : MonoBehaviour {
 
     public Action action = Action.Open;
 
-    
+	public AudioSource stopSound;
 
     public void DoAction()
     {
@@ -41,6 +41,7 @@ public class SteelDoor : MonoBehaviour {
         }
 
         doorMoving.Stop();
+		stopSound.Play ();
         yield return null;
     }
 
