@@ -9,6 +9,7 @@ TagManager:
   - End Level
   - InsideCastle
   - Enemy
+  - UnZippable
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - ArrowShaft
   - Cannon
   - CannonBall
-  - 
-  - 
+  - Stomper
+  - Tiles
   - 
   - 
   - 

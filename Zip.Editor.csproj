@@ -298,7 +298,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\LightningBolt\Editor\LightningBoltEditor.cs" />
-    <Compile Include="Assets\RainMaker\Editor\RainMakerEditor.cs" />
     <Compile Include="Assets\Tilemap\Brushes\Coordinate Brush\Scripts\Editor\CoordinateBrush.cs" />
     <Compile Include="Assets\Tilemap\Brushes\GameObject Brush\Scripts\Editor\GameObjectBrush.cs" />
     <Compile Include="Assets\Tilemap\Brushes\Line Brush\Scripts\Editor\LineBrush.cs" />
@@ -310,8 +309,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\LightningBolt\Readme.txt" />
-    <None Include="Assets\RainMaker\Prefab\RainShader.shader" />
-    <None Include="Assets\RainMaker\Readme.txt" />
     <None Include="Assets\Tilemap\Brushes\Tint Brush Smooth\Shaders\TintedTilemap.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -202,7 +202,7 @@ MonoBehaviour:
   ExplosionCloud: {fileID: 1871068455911532, guid: 3e8d5e565d1bf0b42b38c836e489204e,
     type: 2}
   damage: 1
-  explosion: {fileID: 0}
+  explosion: {fileID: 82537094003355746}
 --- !u!212 &212038396519094416
 SpriteRenderer:
   m_ObjectHideFlags: 1
