@@ -21,6 +21,9 @@ public class Player : MonoBehaviour {
     float previousDirection = 1;
     public float zipCoolDown = 2f;
 
+
+	public float fallGravityModifier = 2.5f;
+
     LightningBoltScript lightningScript; 
     public GameObject lightningObject;
 
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
 
 
+	public LayerMask zipIndicatorOverMask;
 
     public Text healthText;
     public Text zipCharge;
@@ -160,6 +164,21 @@ public class Player : MonoBehaviour {
     }
 
 
+	void FixedUpdate() {
+
+		if (_rigidbody.velocity.y < 0) {
+			print ("before: " + _rigidbody.velocity.y);
+
+			_rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, _rigidbody.velocity.y - fallGravityModifier * Time.deltaTime);
+
+
+			print ("After: " + _rigidbody.velocity.y);
+
+		}
+
+	}
+
+
     void GameOverRun()
     {
        
@@ -182,7 +201,7 @@ public class Player : MonoBehaviour {
         }
 
 
-        if (Input.GetButtonDown("Fire1") && !grounded)
+        if (Input.GetButtonDown("Fire1"))
         {
 
             StartZip();
@@ -223,13 +242,14 @@ public class Player : MonoBehaviour {
         _rigidbody.gravityScale = 0;
         _rigidbody.velocity = Vector2.zero;
         lightningScript.SetLightningPos(transform.position, zipIndicatorObject.transform.position);
-        zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius);
+
+		zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius, zipIndicatorOverMask);
 
         float zipIndicatorHorizontal = Input.GetAxis("Horizontal");
         float zipIndicatorVertical = Input.GetAxis("Vertical");
 
         Vector2 newIndicatorPosition = new Vector2(zipIndicatorObject.transform.position.x + zipIndicatorHorizontal, zipIndicatorObject.transform.position.y + zipIndicatorVertical);
-        // TODO: Add vertical movement to zipIndicator
+       
         if (Vector2.Distance(transform.position, newIndicatorPosition) < 5)
         {
             zipIndicatorObject.transform.position = newIndicatorPosition;
@@ -369,6 +389,7 @@ public class Player : MonoBehaviour {
 				HandleDeath ();
 			} else {
 				_animator.SetTrigger ("flicker");
+
 
 				healthText.text = "Health: " + health.ToString ();
 				hurt = true;
