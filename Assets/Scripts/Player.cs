@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
     float previousDirection = 1;
     public float zipCoolDown = 2f;
 
+    public float maxZipLength = 5f;
 
 	public float fallGravityModifier = 2.5f;
 
@@ -93,7 +94,7 @@ public class Player : MonoBehaviour {
 
         if (GameManager.instance.trialRunning)
         {
-
+            //ShowDebug();
 
             float horizontal = Input.GetAxis("Horizontal");
 
@@ -126,7 +127,7 @@ public class Player : MonoBehaviour {
             if (!doingZip)
             {
                 _rigidbody.velocity = new Vector2(moveSpeed * directionToMove, _rigidbody.velocity.y);
-                _rigidbody.gravityScale = 2;
+                _rigidbody.gravityScale = 1;
             }
 
 
@@ -166,17 +167,20 @@ public class Player : MonoBehaviour {
 
 	void FixedUpdate() {
 
-		if (_rigidbody.velocity.y < 0) {
-			print ("before: " + _rigidbody.velocity.y);
+		if (_rigidbody.velocity.y < 0 && !grounded) {
+
 
 			_rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, _rigidbody.velocity.y - fallGravityModifier * Time.deltaTime);
-
-
-			print ("After: " + _rigidbody.velocity.y);
 
 		}
 
 	}
+
+    void ShowDebug()
+    {
+        print("ZipIndicatorPos: " + zipIndicatorObject.transform.position);
+        print("ZipIndicatorPos: local:" + zipIndicatorObject.transform.localPosition);
+    }
 
 
     void GameOverRun()
@@ -201,7 +205,7 @@ public class Player : MonoBehaviour {
         }
 
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !grounded)
         {
 
             StartZip();
@@ -216,6 +220,14 @@ public class Player : MonoBehaviour {
 
     bool IsGrounded()
     {
+
+        RaycastHit2D hitFront = Physics2D.Raycast(frontGroundCheck.position, -Vector2.up);
+
+
+        float distance = Mathf.Abs(hitFront.point.y - transform.position.y);
+
+        
+
         bool groundedFront = Physics2D.OverlapCircle(frontGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
         bool groundedBack = Physics2D.OverlapCircle(backGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
         bool groundedCentre = Physics2D.OverlapCircle(centreGroundCheck.position, groundCheckRadius, groundCheckLayerMask);
@@ -250,10 +262,10 @@ public class Player : MonoBehaviour {
 
         Vector2 newIndicatorPosition = new Vector2(zipIndicatorObject.transform.position.x + zipIndicatorHorizontal, zipIndicatorObject.transform.position.y + zipIndicatorVertical);
        
-        if (Vector2.Distance(transform.position, newIndicatorPosition) < 5)
+        if (Vector2.Distance(transform.position, newIndicatorPosition) < maxZipLength)
         {
             zipIndicatorObject.transform.position = newIndicatorPosition;
-        }
+        } 
 
 
         if (zipIndicatorOverObject)
