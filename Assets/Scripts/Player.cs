@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
 
 	public LayerMask zipIndicatorOverMask;
 
-    public Text healthText;
+   
     public Text zipCharge;
     public AudioSource zipArcSound;
 
@@ -66,18 +66,21 @@ public class Player : MonoBehaviour {
 
     bool hurt = false;
 
+    public GameObject healthPanelObject;
+    HealthPanel healthPanel;
 
 	public GameObject deathPanel;
 
     // Use this for initialization
     void Start () {
-        healthText.text = "Health: " + health.ToString();
+     
         zipMoveObject.SetActive(false);
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         lightningScript = lightningObject.GetComponent<LightningBoltScript>();
 		GameManager.instance.trialRunning = true;
-
+        healthPanel = healthPanelObject.GetComponent<HealthPanel>();
+        UpdateHealth();
     }
 
 
@@ -403,9 +406,13 @@ public class Player : MonoBehaviour {
 				_animator.SetTrigger ("flicker");
 
 
-				healthText.text = "Health: " + health.ToString ();
+				
 				hurt = true;
 			}
+
+
+            UpdateHealth();
+
         }
     }
 
@@ -422,6 +429,12 @@ public class Player : MonoBehaviour {
     public void FlickerEnd()
     {
         hurt = false;
+    }
+
+
+    void UpdateHealth()
+    {
+        healthPanel.UpdateHealth(health);
     }
 
 
