@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour {
     public GameObject explosionCloud;
     public int damage = 1;
 
-
+    public bool destroyable = true;
 	// Use this for initialization
 	void Start () {
 
@@ -23,7 +23,10 @@ public class Enemy : MonoBehaviour {
             collision.gameObject.GetComponent<Player>().takeDamage(damage);
         }
 
-        DestroyEnemy();
+        if (destroyable)
+        {
+            DestroyEnemy();
+        }
     }
 
 

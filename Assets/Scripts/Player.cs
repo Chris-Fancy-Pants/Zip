@@ -71,6 +71,9 @@ public class Player : MonoBehaviour {
 
 	public GameObject deathPanel;
 
+    public GameObject playerSprite;
+    public ParticleSystem deathParticles;
+    public Text angleText;
     // Use this for initialization
     void Start () {
      
@@ -102,6 +105,12 @@ public class Player : MonoBehaviour {
             float horizontal = Input.GetAxis("Horizontal");
 
             grounded = IsGrounded();
+
+            if(grounded)
+            {
+                canZip = true;
+            }
+
 
             float direction = 1f;
             float directionToMove = 1f;
@@ -258,18 +267,7 @@ public class Player : MonoBehaviour {
         _rigidbody.velocity = Vector2.zero;
         lightningScript.SetLightningPos(transform.position, zipIndicatorObject.transform.position);
 
-		zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius, zipIndicatorOverMask);
-
-        float zipIndicatorHorizontal = Input.GetAxis("Horizontal");
-        float zipIndicatorVertical = Input.GetAxis("Vertical");
-
-        Vector2 newIndicatorPosition = new Vector2(zipIndicatorObject.transform.position.x + zipIndicatorHorizontal, zipIndicatorObject.transform.position.y + zipIndicatorVertical);
-       
-        if (Vector2.Distance(transform.position, newIndicatorPosition) < maxZipLength)
-        {
-            zipIndicatorObject.transform.position = newIndicatorPosition;
-        } 
-
+        HandleIndicatorMovement();
 
         if (zipIndicatorOverObject)
         {
@@ -280,6 +278,81 @@ public class Player : MonoBehaviour {
             zipIndicatorObject.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
+
+    private void HandleIndicatorMovement()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        //Get hypotenuse
+
+        float horizontalModifier = 1;
+        float verticalModifier = 1;
+
+       
+
+
+        float hypotenuse = Mathf.Sqrt(horizontal * horizontal + vertical * vertical);
+
+        // Get angle
+
+        // Opposite / Adjacent
+
+        float oa = vertical / hypotenuse;
+
+        float angleTheta = Mathf.Asin(oa) * 180 / Mathf.PI;
+        float ang = Mathf.Asin(oa);
+       // print("**************");
+       // print("Hypotenuse: " + hypotenuse);
+       // print("Angle Theta: " + angleTheta);
+
+        // find other angle
+
+        float angleBeta = 90 - angleTheta;
+       // print("Angle Beta: " + angleBeta);
+
+       
+
+        float horizontalLength = (maxZipLength * Mathf.Sin(DegreeToRadian(angleBeta))) / Mathf.Sin(DegreeToRadian(90));
+
+       // print("Horizontal length: " + horizontalLength);
+
+
+        float verticalLength = Mathf.Sqrt(maxZipLength * maxZipLength - horizontalLength * horizontalLength);
+
+        // print("Vertical length: " + verticalLength);
+        if (horizontal < 0)
+        {
+            horizontalModifier = -1;
+            print("Horizontal length: " + horizontalLength);
+        }
+
+        if (vertical < 0)
+        {
+            verticalModifier = -1;
+        }
+
+        zipIndicatorObject.transform.position = new Vector2(transform.position.x + horizontalLength * horizontalModifier,
+                                                            (transform.position.y + verticalLength) * verticalModifier);
+
+        zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius, zipIndicatorOverMask);
+
+
+    }
+
+
+
+    private float RadianToDegree(float angle)
+    {
+        return angle * (180.0f / Mathf.PI);
+    }
+
+
+    private float DegreeToRadian(float angle)
+    {
+        return Mathf.PI * angle / 180.0f;
+    }
+
 
 
     void StartZip()
@@ -347,26 +420,11 @@ public class Player : MonoBehaviour {
         lightningScript.StopLightning();
         lightningObject.SetActive(false);
         zipArcSound.Stop();
-        StartCoroutine("ResetZip");
+        
     }
 
 
-    IEnumerator ResetZip()
-    {
-
-        float count = 0;
-
-        zipCharge.text = "Charge: " + count.ToString();
-
-        while (count < zipCoolDown)
-        {
-            count += Time.deltaTime;
-            zipCharge.text = "Charge: " + count.ToString();
-            yield return new WaitForEndOfFrame();
-        }
-        canZip = true;
-        zipCharge.text = "ZIP!";
-    }
+ 
 
 
 
@@ -418,12 +476,21 @@ public class Player : MonoBehaviour {
 
 	void HandleDeath() {
 
-		deathPanel.SetActive (true);
-		DeathPanel dPanel = deathPanel.GetComponent<DeathPanel> ();
-		dPanel.ShowDeathPanel ();
+		
 		GameManager.instance.trialRunning = false;
+        playerSprite.SetActive(false);
+        _rigidbody.velocity = Vector2.zero;
+        deathParticles.Play();
+        Invoke("ShowDeathPanel", 2f);
 
 	}
+
+    void ShowDeathPanel()
+    {
+        deathPanel.SetActive(true);
+        DeathPanel dPanel = deathPanel.GetComponent<DeathPanel>();
+        dPanel.ShowDeathPanel();
+    }
 
 
     public void FlickerEnd()
