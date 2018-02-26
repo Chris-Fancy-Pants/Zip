@@ -5001,6 +5001,50 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &216718681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 216718683}
+  - component: {fileID: 216718682}
+  m_Layer: 0
+  m_Name: Level
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &216718682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 216718681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65949df8671cbf24cadf81df57dc67f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTrial: 1
+  currentLevel: 1
+  nextTrial: 1
+  nextLevel: 1
+--- !u!4 &216718683
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 216718681}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 73.857, y: 2.9325445, z: -0.921875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &220588555
 GameObject:
   m_ObjectHideFlags: 0
@@ -14475,6 +14519,7 @@ GameObject:
   - component: {fileID: 1405129539}
   - component: {fileID: 1405129541}
   - component: {fileID: 1405129543}
+  - component: {fileID: 1405129542}
   m_Layer: 15
   m_Name: Tilemap
   m_TagString: Untagged
@@ -33728,8 +33773,186 @@ TilemapCollider2D:
   m_Material: {fileID: 6200000, guid: 6cdc76b508e91b94ca1b98a7d5d893ea, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+--- !u!66 &1405129542
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1405129537}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_GeometryType: 1
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1405129541}
+    m_ColliderPaths:
+    - - X: 1680000000
+        Y: 100000000
+      - X: 1560000000
+        Y: 100000000
+      - X: 1560000000
+        Y: -70000000
+      - X: 1120000000
+        Y: -70000000
+      - X: 1120000000
+        Y: -90000000
+      - X: 1070000000
+        Y: -90000000
+      - X: 1070000000
+        Y: -70000000
+      - X: 580000000
+        Y: -70000000
+      - X: 580000000
+        Y: 10000000
+      - X: 560000000
+        Y: 10000000
+      - X: 560000000
+        Y: -30000000
+      - X: 540000000
+        Y: -30000000
+      - X: 540000000
+        Y: -50000000
+      - X: 510000000
+        Y: -50000000
+      - X: 510000000
+        Y: -70000000
+      - X: -90000000
+        Y: -70000000
+      - X: -90000000
+        Y: 290000000
+      - X: -170000000
+        Y: 290000000
+      - X: -170000000
+        Y: -130000000
+      - X: 1680000000
+        Y: -130000000
+    - - X: 810000000
+        Y: 240000000
+      - X: 650000000
+        Y: 240000000
+      - X: 650000000
+        Y: 140000000
+      - X: 810000000
+        Y: 140000000
+    - - X: 420000000
+        Y: 190000000
+      - X: 340000000
+        Y: 190000000
+      - X: 340000000
+        Y: 60000000
+      - X: 290000000
+        Y: 60000000
+      - X: 290000000
+        Y: -10000000
+      - X: 240000000
+        Y: -10000000
+      - X: 240000000
+        Y: -20000000
+      - X: 420000000
+        Y: -20000000
+    - - X: 370000000
+        Y: 70000000
+      - X: 370000000
+        Y: 90000000
+      - X: 390000000
+        Y: 90000000
+      - X: 390000000
+        Y: 70000000
+    - - X: 810000000
+        Y: 80000000
+      - X: 580000000
+        Y: 80000000
+      - X: 580000000
+        Y: 60000000
+      - X: 810000000
+        Y: 60000000
+    - - X: 540000000
+        Y: 40000000
+      - X: 460000000
+        Y: 40000000
+      - X: 460000000
+        Y: 20000000
+      - X: 540000000
+        Y: 20000000
+    - - X: 970000000
+        Y: -10000000
+      - X: 670000000
+        Y: -10000000
+      - X: 670000000
+        Y: -30000000
+      - X: 970000000
+        Y: -30000000
+    - - X: 180000000
+        Y: -10000000
+      - X: 150000000
+        Y: -10000000
+      - X: 150000000
+        Y: -20000000
+      - X: 180000000
+        Y: -20000000
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 168, y: 10}
+      - {x: 156, y: 10}
+      - {x: 156, y: -7}
+      - {x: 112, y: -7}
+      - {x: 112, y: -9}
+      - {x: 107, y: -9}
+      - {x: 107, y: -7}
+      - {x: 58, y: -7}
+      - {x: 58, y: 1}
+      - {x: 56, y: 1}
+      - {x: 56, y: -3}
+      - {x: 54, y: -3}
+      - {x: 54, y: -5}
+      - {x: 51, y: -5}
+      - {x: 51, y: -7}
+      - {x: -9, y: -7}
+      - {x: -9, y: 29}
+      - {x: -17, y: 29}
+      - {x: -17, y: -13}
+      - {x: 168, y: -13}
+    - - {x: 81, y: 24}
+      - {x: 65, y: 24}
+      - {x: 65, y: 14}
+      - {x: 81, y: 14}
+    - - {x: 42, y: 19}
+      - {x: 34, y: 19}
+      - {x: 34, y: 6}
+      - {x: 29, y: 6}
+      - {x: 29, y: -1}
+      - {x: 24, y: -1}
+      - {x: 24, y: -2}
+      - {x: 42, y: -2}
+    - - {x: 37, y: 7}
+      - {x: 37, y: 9}
+      - {x: 39, y: 9}
+      - {x: 39, y: 7}
+    - - {x: 81, y: 8}
+      - {x: 58, y: 8}
+      - {x: 58, y: 6}
+      - {x: 81, y: 6}
+    - - {x: 54, y: 4}
+      - {x: 46, y: 4}
+      - {x: 46, y: 2}
+      - {x: 54, y: 2}
+    - - {x: 97, y: -1}
+      - {x: 67, y: -1}
+      - {x: 67, y: -3}
+      - {x: 97, y: -3}
+    - - {x: 18, y: -1}
+      - {x: 15, y: -1}
+      - {x: 15, y: -2}
+      - {x: 18, y: -2}
+  m_VertexDistance: 0.0005
 --- !u!50 &1405129543
 Rigidbody2D:
   serializedVersion: 4
@@ -38172,6 +38395,11 @@ Prefab:
       propertyPath: angleText
       value: 
       objectReference: {fileID: 2031765930}
+    - target: {fileID: 70517818103803782, guid: 68aa0bfee15876842907801e31495564,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 6cdc76b508e91b94ca1b98a7d5d893ea, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 68aa0bfee15876842907801e31495564, type: 2}
   m_IsPrefabParent: 0

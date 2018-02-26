@@ -267,6 +267,9 @@ public class Player : MonoBehaviour {
         _rigidbody.velocity = Vector2.zero;
         lightningScript.SetLightningPos(transform.position, zipIndicatorObject.transform.position);
 
+
+
+
         HandleIndicatorMovement();
 
         if (zipIndicatorOverObject)
@@ -284,56 +287,68 @@ public class Player : MonoBehaviour {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
+
+        Vector2 newPos = new Vector2(zipIndicatorObject.transform.position.x + horizontal * Time.deltaTime * zipSpeed,
+                                     zipIndicatorObject.transform.position.y + vertical * Time.deltaTime * zipSpeed);
+
+        if(Vector2.Distance(transform.position, zipIndicatorObject.transform.position) < maxZipLength)
+        {
+            zipIndicatorObject.transform.position = newPos;
+        }
+        else
+        {
+            float horizontalModifier = 1;
+            float verticalModifier = 1;
+
+
+
+
+            float hypotenuse = Mathf.Sqrt(horizontal * horizontal + vertical * vertical);
+
+            // Get angle
+
+            // Opposite / Adjacent
+
+            float oa = vertical / hypotenuse;
+
+            float angleTheta = Mathf.Asin(oa) * 180 / Mathf.PI;
+            float ang = Mathf.Asin(oa);
+            // print("**************");
+            // print("Hypotenuse: " + hypotenuse);
+            // print("Angle Theta: " + angleTheta);
+
+            // find other angle
+
+            float angleBeta = 90 - angleTheta;
+            // print("Angle Beta: " + angleBeta);
+
+
+
+            float horizontalLength = (maxZipLength * Mathf.Sin(DegreeToRadian(angleBeta))) / Mathf.Sin(DegreeToRadian(90));
+
+            // print("Horizontal length: " + horizontalLength);
+
+
+            float verticalLength = Mathf.Sqrt(maxZipLength * maxZipLength - horizontalLength * horizontalLength);
+
+            // print("Vertical length: " + verticalLength);
+            if (horizontal < 0)
+            {
+                horizontalModifier = -1;
+                print("Horizontal length: " + horizontalLength);
+            }
+
+            if (vertical < 0)
+            {
+                verticalModifier = -1;
+            }
+
+            zipIndicatorObject.transform.position = new Vector2(transform.position.x + horizontalLength * horizontalModifier,
+                                                                transform.position.y + verticalLength * verticalModifier);
+        }
         //Get hypotenuse
 
-        float horizontalModifier = 1;
-        float verticalModifier = 1;
-
        
-
-
-        float hypotenuse = Mathf.Sqrt(horizontal * horizontal + vertical * vertical);
-
-        // Get angle
-
-        // Opposite / Adjacent
-
-        float oa = vertical / hypotenuse;
-
-        float angleTheta = Mathf.Asin(oa) * 180 / Mathf.PI;
-        float ang = Mathf.Asin(oa);
-       // print("**************");
-       // print("Hypotenuse: " + hypotenuse);
-       // print("Angle Theta: " + angleTheta);
-
-        // find other angle
-
-        float angleBeta = 90 - angleTheta;
-       // print("Angle Beta: " + angleBeta);
-
-       
-
-        float horizontalLength = (maxZipLength * Mathf.Sin(DegreeToRadian(angleBeta))) / Mathf.Sin(DegreeToRadian(90));
-
-       // print("Horizontal length: " + horizontalLength);
-
-
-        float verticalLength = Mathf.Sqrt(maxZipLength * maxZipLength - horizontalLength * horizontalLength);
-
-        // print("Vertical length: " + verticalLength);
-        if (horizontal < 0)
-        {
-            horizontalModifier = -1;
-            print("Horizontal length: " + horizontalLength);
-        }
-
-        if (vertical < 0)
-        {
-            verticalModifier = -1;
-        }
-
-        zipIndicatorObject.transform.position = new Vector2(transform.position.x + horizontalLength * horizontalModifier,
-                                                            (transform.position.y + verticalLength) * verticalModifier);
 
         zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius, zipIndicatorOverMask);
 

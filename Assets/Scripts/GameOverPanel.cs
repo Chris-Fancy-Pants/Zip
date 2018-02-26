@@ -74,26 +74,11 @@ public class GameOverPanel : MonoBehaviour {
     void NextLevel()
     {
 
-        Scene scene = SceneManager.GetActiveScene();
-        string levelNum = scene.name.Substring(5);
-        string[] LSSplit = levelNum.Split(',');
 
-        string trial = LSSplit[0];
-        string level = LSSplit[1];
+        Level level = GameObject.Find("Level").GetComponent<Level>();
 
-        /// create level name
-        /// 
-        int levelNumber = int.Parse(level) + 1;
-        int trialNumber = int.Parse(trial);
-
-
-        if(levelNumber <= GameManager.instance.trialCounts[trialNumber -1])
-        {
-            GameManager.instance.LoadLevel(trialNumber, levelNumber);
-        } else
-        {
-            SceneManager.LoadScene("Hub");
-        }
+        GameManager.instance.LoadLevel(level.nextTrial, level.nextTrial);
+       
 
         
 

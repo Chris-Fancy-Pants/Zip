@@ -308,6 +308,7 @@
     <Compile Include="Assets\Scripts\GameOverPanel.cs" />
     <Compile Include="Assets\Scripts\GameOverScreen.cs" />
     <Compile Include="Assets\Scripts\HealthPanel.cs" />
+    <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\PerfectPixel.cs" />
     <Compile Include="Assets\Scripts\PhysicsObject.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
