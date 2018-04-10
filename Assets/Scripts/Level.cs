@@ -12,7 +12,10 @@ public class Level : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        Dictionary<string, string> levelDetails = GameManager.instance.GetLevelDetails();
+
+        currentLevel = int.Parse(levelDetails["Level"]);
+        currentTrial = int.Parse(levelDetails["Trial"]);
 	}
 	
 	// Update is called once per frame

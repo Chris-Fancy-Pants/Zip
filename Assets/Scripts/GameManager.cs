@@ -63,9 +63,26 @@ public class GameManager : MonoBehaviour {
 		string levelToLoad = "level" + trial.ToString() + "," + level.ToString ();
 
 
-		SceneManager.LoadScene (levelToLoad);
+       
+        SceneManager.LoadScene (levelToLoad);
 
 
 	}
+
+
+    public Dictionary<string, string> GetLevelDetails()
+    {
+        Dictionary<string, string> dict = new Dictionary<string, string>();
+        Scene scene = SceneManager.GetActiveScene();
+        string levelNum = scene.name.Substring(5);
+
+
+        string[] LSSplit = levelNum.Split(',');
+
+        dict.Add("Trial", LSSplit[0]);
+        dict.Add("Level", LSSplit[1]);
+        return dict;
+
+    }
 
 }

@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 3a99d45adfc63c049880c27daf1e9c05
-timeCreated: 1516316590
+guid: a418053f4ba727047a49d221718b3d62
+timeCreated: 1522985544
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Image 34_0
-    21300002: Image 34_1
-    21300004: Image 34_2
+    21300000: Flying Creature Main
+    21300002: Bottom Lip
+    21300004: Top Lip
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -39,7 +39,7 @@ TextureImporter:
     mipBias: -1
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Image 34_0
+      name: Flying Creature Main
       rect:
         serializedVersion: 2
-        x: 1795
-        y: 1309
-        width: 858
-        height: 694
+        x: 25
+        y: 1556
+        width: 1635
+        height: 1147
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,13 +127,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Image 34_1
+      name: Bottom Lip
       rect:
         serializedVersion: 2
-        x: 512
-        y: 1268
-        width: 1187
-        height: 761
+        x: 41
+        y: 1389
+        width: 363
+        height: 90
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,13 +141,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Image 34_2
+      name: Top Lip
       rect:
         serializedVersion: 2
-        x: 13
-        y: 1394
-        width: 422
-        height: 645
+        x: 37
+        y: 1053
+        width: 369
+        height: 91
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

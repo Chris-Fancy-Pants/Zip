@@ -10,6 +10,9 @@ TagManager:
   - InsideCastle
   - Enemy
   - UnZippable
+  - Map
+  - Creature
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -49,6 +52,9 @@ TagManager:
     locked: 0
   - name: Trees
     uniqueID: 3260195893
+    locked: 0
+  - name: Shrubs
+    uniqueID: 1319470497
     locked: 0
   - name: Tiles
     uniqueID: 3911653219

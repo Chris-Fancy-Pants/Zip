@@ -33,7 +33,7 @@ public class Stomper : MonoBehaviour {
             if(transform.position.y > closedPosition.position.y)
             {
                 //move Down
-                transform.position = new Vector2(transform.position.x, transform.position.y - speed * Time.deltaTime);
+                transform.position = new Vector2(transform.position.x, transform.position.y - speed * 10 * Time.deltaTime);
             } else
             {
                 direction = MoveDirection.up;

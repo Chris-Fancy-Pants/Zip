@@ -101,8 +101,14 @@ public class Player : MonoBehaviour {
         if (GameManager.instance.trialRunning)
         {
             //ShowDebug();
+            float horizontal = 0;
 
-            float horizontal = Input.GetAxis("Horizontal");
+
+            if (!doingZip)
+            {
+                horizontal = Input.GetAxis("Horizontal");
+            }
+
 
             grounded = IsGrounded();
 
@@ -135,12 +141,56 @@ public class Player : MonoBehaviour {
                 directionToMove = 0;
             }
 
-
-            if (!doingZip)
+            /*
+            if (!doingZip && grounded)
             {
-                _rigidbody.velocity = new Vector2(moveSpeed * directionToMove, _rigidbody.velocity.y);
+
+                float moveSpeed = 5000f;
+
+                print("Move speed * horizontal: " + moveSpeed * horizontal);
+                
+                if (Mathf.Abs(_rigidbody.velocity.x) < 10)
+                {
+                    _rigidbody.AddForce(new Vector2(moveSpeed * horizontal, 0));
+                }
                 _rigidbody.gravityScale = 1;
             }
+
+
+            else if (!doingZip && !grounded)
+            {
+
+                float moveSpeed = 1000f;
+
+                //print("Move speed * horizontal: " + moveSpeed * horizontal);
+
+                print("Sign: " + Mathf.Sign(horizontal));
+                
+                if(Mathf.Sign(horizontal) != Mathf.Sign(_rigidbody.velocity.x))
+                {
+                    moveSpeed = 7000f;
+                }
+
+
+                if (Mathf.Abs(_rigidbody.velocity.x) < 7)
+                {
+                    _rigidbody.AddForce(new Vector2(moveSpeed * horizontal , 0));
+                }
+                _rigidbody.gravityScale = 1;
+            }
+            */
+
+
+            if(!doingZip && !zipping)
+            {
+                //_rigidbody.velocity = new Vector2(Mathf.Sign(horizontal) * moveSpeed, _rigidbody.velocity.y);
+                _rigidbody.position = new Vector2(_rigidbody.position.x + horizontal * moveSpeed * Time.deltaTime, _rigidbody.position.y);
+                _animator.SetFloat("velocityX", Mathf.Abs(horizontal));
+            }
+           
+
+
+            
 
 
             previousDirection = direction;
@@ -179,12 +229,7 @@ public class Player : MonoBehaviour {
 
 	void FixedUpdate() {
 
-		if (_rigidbody.velocity.y < 0 && !grounded) {
-
-
-			_rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, _rigidbody.velocity.y - fallGravityModifier * Time.deltaTime);
-
-		}
+		
 
 	}
 
@@ -255,7 +300,7 @@ public class Player : MonoBehaviour {
 
     void HandleAnimator()
     {
-        _animator.SetFloat("velocityX", Mathf.Abs(_rigidbody.velocity.x));
+        //_animator.SetFloat("velocityX", Mathf.Abs(_rigidbody.velocity.x));
         _animator.SetBool("grounded", grounded);
         _animator.SetFloat("velocityY", _rigidbody.velocity.y);
     }
@@ -283,6 +328,80 @@ public class Player : MonoBehaviour {
     }
 
     private void HandleIndicatorMovement()
+    {
+
+
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+
+
+        float horizontal = mousePos.x - transform.position.x;
+        float vertical = mousePos.y - transform.position.y;
+
+
+        if (Vector2.Distance(transform.position, zipIndicatorObject.transform.position) < maxZipLength)
+        {
+            zipIndicatorObject.transform.position = mousePos;
+        }
+        else
+        {
+            float horizontalModifier = 1;
+            float verticalModifier = 1;
+
+            float hypotenuse = Mathf.Sqrt(horizontal * horizontal + vertical * vertical);
+
+            // Get angle
+
+            // Opposite / Adjacent
+
+            float oa = vertical / hypotenuse;
+
+            float angleTheta = Mathf.Asin(oa) * 180 / Mathf.PI;
+            float ang = Mathf.Asin(oa);
+            // print("**************");
+            // print("Hypotenuse: " + hypotenuse);
+            // print("Angle Theta: " + angleTheta);
+
+            // find other angle
+
+            float angleBeta = 90 - angleTheta;
+            // print("Angle Beta: " + angleBeta);
+
+
+
+            float horizontalLength = (maxZipLength * Mathf.Sin(DegreeToRadian(angleBeta))) / Mathf.Sin(DegreeToRadian(90));
+
+            // print("Horizontal length: " + horizontalLength);
+
+
+            float verticalLength = Mathf.Sqrt(maxZipLength * maxZipLength - horizontalLength * horizontalLength);
+
+            // print("Vertical length: " + verticalLength);
+            if (horizontal < 0)
+            {
+                horizontalModifier = -1;
+                print("Horizontal length: " + horizontalLength);
+            }
+
+            if (vertical < 0)
+            {
+                verticalModifier = -1;
+            }
+
+            zipIndicatorObject.transform.position = new Vector2(transform.position.x + horizontalLength * horizontalModifier,
+                                                                transform.position.y + verticalLength * verticalModifier);
+        }
+        //Get hypotenuse
+
+
+
+        //zipIndicator = Physics2D.OverlapCircle(zipIndicator.transform.position, zipIndicatorRadius, zipIndicatorOverMask);
+        zipIndicatorOverObject = Physics2D.OverlapCircle(zipIndicatorObject.transform.position, zipIndicatorRadius, zipIndicatorOverMask);
+
+    }
+
+
+    private void HandleIndicatorMovementOld()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -435,7 +554,8 @@ public class Player : MonoBehaviour {
         lightningScript.StopLightning();
         lightningObject.SetActive(false);
         zipArcSound.Stop();
-        
+        _rigidbody.gravityScale = 1;
+
     }
 
 

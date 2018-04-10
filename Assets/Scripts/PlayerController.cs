@@ -41,6 +41,9 @@ public class PlayerController : PhysicsObject
 	public float zipMoveSpeed  = 4f;
 
 
+    public Transform frontCheck;
+    public Transform rearCheck;
+
 	public Vector3 endCameraOffset;
 	public float normalCameraZoom = 5f;
 	public float endCameraZoom = 10f;
@@ -52,6 +55,8 @@ public class PlayerController : PhysicsObject
 	bool doingZip = false;
 
 	bool zipBuildingCharge = false;
+
+    bool canZip = false;
 
     public GameObject zipIndicator;
 
@@ -78,7 +83,7 @@ public class PlayerController : PhysicsObject
     Alter alter2;
     Alter alter3;
 
-
+    public float maxZipLength = 5f;
 
     [Header("HUD")]
     public Text healthText;
@@ -88,44 +93,22 @@ public class PlayerController : PhysicsObject
     {
         zipIndicatorSpriteRenderer = zipIndicator.GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        zipChargeText.text = "Zip: " + maxZipCharge;
+        
         zipCharge = maxZipCharge;
         deadZoneCam = _camera.GetComponent<DeadzoneCamera>();
 		lightningScript = LightningObject.GetComponent<LightningBoltScript> ();
-
+      
         gameOverScreen = gameOverScreenObject.GetComponent<GameOverPanel> ();
-
-		
-
 
         alter1 = alter1Object.GetComponent<Alter>();
         alter2 = alter2Object.GetComponent<Alter>();
         alter3 = alter3Object.GetComponent<Alter>();
 
-        StartCoroutine ("TimeKeeper");
-        //print ("GameManager: " + GameManager.instance.trials);
-        SetHealthText();
-    }
-
-
-
-	IEnumerator TimeKeeper() {
-
-		while(!gameOver) {
-
-			timeTaken += timeinc;
-			timeText.text = "Time: " + timeTaken.ToString ();
-			yield return new WaitForSeconds (timeinc);
-		}
-
-	}
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(zipIndicator.transform.position, zipIndicatorHitRadius);
+        
         
     }
+
+
 
     protected override void ComputeVelocity()
     {
@@ -133,33 +116,35 @@ public class PlayerController : PhysicsObject
 
         if (!gameOver) {
 			
+
+            if(grounded)
+            {
+                canZip = true;
+            }
+
+
 			Vector2 move = Vector2.zero;
 			bool overObject = true;
 
-			if (shouldFall == 0) {
+			if (!shouldFall) {
 				overObject = Physics2D.OverlapCircle (zipIndicator.transform.position, zipIndicatorHitRadius, zipIndicatorLayerMask);
-               
-               
-
             } else {
 				move.x = Input.GetAxis ("Horizontal");
 			}
         
 
-			if (Input.GetButtonDown ("Jump") && grounded) {
+			if (Input.GetButtonDown ("Jump") && CanJump(move.x)) {
 				jumpSound.Play ();
 				velocity.y = jumpTakeOffSpeed;
-				shouldFall = 1;
-				animator.SetTrigger ("jump");
+			
 			} else if (Input.GetButtonUp ("Jump")) {
 				if (velocity.y > 0) {
 					velocity.y = velocity.y * 0.5f;
-					shouldFall = 1;
 				}
 			}
 
 
-			if (Input.GetButtonDown ("Fire1") && !grounded) {
+			if (Input.GetButtonDown ("Fire1") && !grounded && canZip) {
 
 				StartZip ();
 
@@ -176,38 +161,13 @@ public class PlayerController : PhysicsObject
 
 			}
 
-			if (zipBuildingCharge) {
-
-				zipCharge--;
-				lightningScript.SetLightningPos (transform.position, zipIndicator.transform.position);
-				float zipIndicatorHorizontal = Input.GetAxis ("Horizontal");
-				float zipIndicatorVertical = Input.GetAxis ("Vertical");
-				float zipModifierHorizontal = zipIndicatorHorizontal * zipSpeed * Time.deltaTime;
-				float zipModifierVertical = zipIndicatorVertical * zipSpeed * Time.deltaTime;
-
-				Vector2 nextIndicatorPosition = new Vector2 (zipIndicator.transform.position.x + zipModifierHorizontal, zipIndicator.transform.position.y + zipModifierVertical);
-
-				if (Vector2.Distance (transform.position, nextIndicatorPosition) < 5) {
-
-					_cam.orthographicSize += 0.3f;
-					zipIndicator.transform.position = nextIndicatorPosition;
-
-				}
-
-				if (zipCharge <= 0) {
-					zipBuildingCharge = false;
-				}
-			}
-
-			if (zipCharge <= 0) {
-				StopZip ();
 			
-		
-			}
+
+			
 
 
 
-			if (shouldFall == 0) { // Zip Active
+			if (!shouldFall) { // Zip Active
            
 				if (overObject) {
 					zipIndicatorSpriteRenderer.color = Color.red;
@@ -254,17 +214,272 @@ public class PlayerController : PhysicsObject
 
     }
 
+    private void LateUpdate()
+    {
+        if (zipBuildingCharge)
+        {
+
+            /*
+             zipCharge--;
+             lightningScript.SetLightningPos (transform.position, zipIndicator.transform.position);
+             float zipIndicatorHorizontal = Input.GetAxis ("Horizontal");
+             float zipIndicatorVertical = Input.GetAxis ("Vertical");
+             float zipModifierHorizontal = zipIndicatorHorizontal * zipSpeed * Time.deltaTime;
+             float zipModifierVertical = zipIndicatorVertical * zipSpeed * Time.deltaTime;
+
+             Vector2 nextIndicatorPosition = new Vector2 (zipIndicator.transform.position.x + zipModifierHorizontal, zipIndicator.transform.position.y + zipModifierVertical);
+
+             if (Vector2.Distance (transform.position, nextIndicatorPosition) < 5) {
+
+                 //_cam.orthographicSize += 0.3f;
+                 zipIndicator.transform.position = nextIndicatorPosition;
+
+             }
+
+             if (zipCharge <= 0) {
+                 zipBuildingCharge = false;
+             }
+             */
+            HandleZip();
+
+        }
+    }
+
+    void HandleZip()
+    {
+     
+
+
+
+        lightningScript.SetLightningPos(transform.position, zipIndicator.transform.position);
+
+
+
+        
+        HandleIndicatorMovement();
+
+        if (zipIndicator)
+        {
+            zipIndicator.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else
+        {
+            zipIndicator.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
+
+
+    private void HandleIndicatorMovement()
+    {
+        
+
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+
+
+        float horizontal = mousePos.x - transform.position.x;
+        float vertical = mousePos.y - transform.position.y;
+
+
+        if (Vector2.Distance(transform.position, zipIndicator.transform.position) < maxZipLength)
+        {
+            zipIndicator.transform.position = mousePos;
+        }
+        else
+        {
+            float horizontalModifier = 1;
+            float verticalModifier = 1;
+
+
+
+
+            float hypotenuse = Mathf.Sqrt(horizontal * horizontal + vertical * vertical);
+
+            // Get angle
+
+            // Opposite / Adjacent
+
+            float oa = vertical / hypotenuse;
+
+            float angleTheta = Mathf.Asin(oa) * 180 / Mathf.PI;
+            float ang = Mathf.Asin(oa);
+            // print("**************");
+            // print("Hypotenuse: " + hypotenuse);
+            // print("Angle Theta: " + angleTheta);
+
+            // find other angle
+
+            float angleBeta = 90 - angleTheta;
+            // print("Angle Beta: " + angleBeta);
+
+
+
+            float horizontalLength = (maxZipLength * Mathf.Sin(DegreeToRadian(angleBeta))) / Mathf.Sin(DegreeToRadian(90));
+
+            // print("Horizontal length: " + horizontalLength);
+
+
+            float verticalLength = Mathf.Sqrt(maxZipLength * maxZipLength - horizontalLength * horizontalLength);
+
+            // print("Vertical length: " + verticalLength);
+            if (horizontal < 0)
+            {
+                horizontalModifier = -1;
+                print("Horizontal length: " + horizontalLength);
+            }
+
+            if (vertical < 0)
+            {
+                verticalModifier = -1;
+            }
+
+            zipIndicator.transform.position = new Vector2(transform.position.x + horizontalLength * horizontalModifier,
+                                                                transform.position.y + verticalLength * verticalModifier);
+        }
+        //Get hypotenuse
+
+
+
+        //zipIndicator = Physics2D.OverlapCircle(zipIndicator.transform.position, zipIndicatorRadius, zipIndicatorOverMask);
+
+
+    }
+
+
+
+
+    private void HandleIndicatorMovementOld()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+
+
+
+        Vector2 newPos = new Vector2(zipIndicator.transform.position.x + horizontal * Time.deltaTime * zipSpeed,
+                                     zipIndicator.transform.position.y + vertical * Time.deltaTime * zipSpeed);
+
+        if (Vector2.Distance(transform.position, zipIndicator.transform.position) < maxZipLength)
+        {
+            zipIndicator.transform.position = newPos;
+        }
+        else
+        {
+            float horizontalModifier = 1;
+            float verticalModifier = 1;
+
+
+
+
+            float hypotenuse = Mathf.Sqrt(horizontal * horizontal + vertical * vertical);
+
+            // Get angle
+
+            // Opposite / Adjacent
+
+            float oa = vertical / hypotenuse;
+
+            float angleTheta = Mathf.Asin(oa) * 180 / Mathf.PI;
+            float ang = Mathf.Asin(oa);
+            // print("**************");
+            // print("Hypotenuse: " + hypotenuse);
+            // print("Angle Theta: " + angleTheta);
+
+            // find other angle
+
+            float angleBeta = 90 - angleTheta;
+            // print("Angle Beta: " + angleBeta);
+
+
+
+            float horizontalLength = (maxZipLength * Mathf.Sin(DegreeToRadian(angleBeta))) / Mathf.Sin(DegreeToRadian(90));
+
+            // print("Horizontal length: " + horizontalLength);
+
+
+            float verticalLength = Mathf.Sqrt(maxZipLength * maxZipLength - horizontalLength * horizontalLength);
+
+            // print("Vertical length: " + verticalLength);
+            if (horizontal < 0)
+            {
+                horizontalModifier = -1;
+                print("Horizontal length: " + horizontalLength);
+            }
+
+            if (vertical < 0)
+            {
+                verticalModifier = -1;
+            }
+
+            zipIndicator.transform.position = new Vector2(transform.position.x + horizontalLength * horizontalModifier,
+                                                                transform.position.y + verticalLength * verticalModifier);
+        }
+        //Get hypotenuse
+
+
+
+        //zipIndicator = Physics2D.OverlapCircle(zipIndicator.transform.position, zipIndicatorRadius, zipIndicatorOverMask);
+
+
+    }
+
+
+
+    private float RadianToDegree(float angle)
+    {
+        return angle * (180.0f / Mathf.PI);
+    }
+
+
+    private float DegreeToRadian(float angle)
+    {
+        return Mathf.PI * angle / 180.0f;
+    }
+
+
+    bool CanJump(float move)
+    {
+        if(grounded)
+        {
+            return true;
+        }
+
+        bool canJump = false;
+
+        if(move < 0 )
+        {
+            print("Checking Front");
+            canJump = Physics2D.OverlapCircle(frontCheck.position, 0.1f);
+        } else if(move > 0)
+        {
+            print("Checking Back");
+            canJump = Physics2D.OverlapCircle(rearCheck.position, 0.1f);
+        }
+
+
+
+        return canJump;
+    }
+
 	void StartZip() {
+
+        SetShouldFall(false);
+
 		LightningObject.SetActive (true);
 		lightningScript.FireLightning (transform.position, zipIndicator.transform.position);
 		zipIndicator.SetActive(true);
-		deadZoneCam.ChangeTarget(zipIndicator);
+		//deadZoneCam.ChangeTarget(zipIndicator);
 		if (!zipIndicator.activeInHierarchy)
 		{
 			zipIndicator.SetActive(true);
 		}
 		zipBuildingCharge = true;
-		shouldFall = 0;
+
+        print("Setting shouldFall to false");
+
+		shouldFall = false;
+
+        print("shouldFall set to false");
 
 		// Play Zip arc sound
 		zipArcSound.Play();
@@ -273,14 +488,19 @@ public class PlayerController : PhysicsObject
 	}
 
 	void StopZip() {
+
+        
+
 		LightningObject.SetActive (false);
 		zipIndicator.SetActive (false);
 		zipBuildingCharge = false;
 		zipIndicator.transform.position = transform.position;
-		shouldFall = 1;
-		StartCoroutine ("RechargeZip");
+        //print("Setting shouldFall to true");
+        SetShouldFall(true);
+        //print("shouldFall set to true");
+        StartCoroutine ("RechargeZip");
 		deadZoneCam.ChangeTarget (this.gameObject);
-		_cam.orthographicSize = 5;
+		//_cam.orthographicSize = 5;
 		// Stop zip arcing sound
 		zipArcSound.Stop();
 
@@ -289,17 +509,6 @@ public class PlayerController : PhysicsObject
 	}
 
 
-	void NoZip() {
-		zipIndicator.SetActive(false);
-
-		shouldFall = 1;
-		zipIndicator.transform.position = transform.position;
-		deadZoneCam.ChangeTarget(this.gameObject);
-		if (!zipRecharging)
-		{
-			StartCoroutine("RechargeZip");
-		}
-	}
 
 
 	void DoZip() {
@@ -319,7 +528,7 @@ public class PlayerController : PhysicsObject
         {
 			DoZip ();
         }
-        shouldFall = 1;
+        shouldFall = true;
         zipIndicator.transform.position = transform.position;
         deadZoneCam.ChangeTarget(this.gameObject);
         if (!zipRecharging)
@@ -335,7 +544,7 @@ public class PlayerController : PhysicsObject
         while (zipCharge < maxZipCharge)
         {
             zipCharge++;
-            zipChargeText.text = "Zip: " + zipCharge;
+           // zipChargeText.text = "Zip: " + zipCharge;
             yield return new WaitForSeconds(zipRechargeSpeed);
         }
         zipRecharging = false;
@@ -349,7 +558,6 @@ public class PlayerController : PhysicsObject
         {
             print("Hit Enemy");
             health -= 1;
-            SetHealthText();
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.DestroyEnemy();
             
@@ -427,10 +635,7 @@ public class PlayerController : PhysicsObject
 	}
 
 
-    void SetHealthText()
-    {
-        healthText.text = "Health: " + health.ToString();
-    }
+
 
 
 }

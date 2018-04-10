@@ -17,7 +17,7 @@ public class PhysicsObject : MonoBehaviour
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D>(16);
 
-    protected int shouldFall = 1;
+    protected bool shouldFall;
 
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
@@ -32,6 +32,8 @@ public class PhysicsObject : MonoBehaviour
         contactFilter.useTriggers = false;
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
+
+        shouldFall = true;
     }
 
     void Update()
@@ -45,30 +47,66 @@ public class PhysicsObject : MonoBehaviour
 
     }
 
+    protected void SetShouldFall(bool fall)
+    {
+        shouldFall = fall;
+    }
+
+
     void FixedUpdate()
     {
-        velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
+
+        print(transform.name + "Shouldfall: " + shouldFall);
+
+
+        if (shouldFall)
+        {
+            velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
+        } else
+        {
+            velocity.y = 0;
+        }
+
+
         velocity.x = targetVelocity.x;
 
-        grounded = false;
+            grounded = false;
 
-        Vector2 deltaPosition = velocity * Time.deltaTime;
+            Vector2 deltaPosition = velocity * Time.deltaTime;
 
-        Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
+            Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
 
-        Vector2 move = moveAlongGround * deltaPosition.x;
+            Vector2 move = moveAlongGround * deltaPosition.x;
 
-        Movement(move, false);
+            Movement(move, false);
 
-		if (shouldFall == 1) {
-			move = Vector2.up * deltaPosition.y;
 
-			Movement (move, true);
-		}
+        if (shouldFall)
+        {
+            move = Vector2.up * deltaPosition.y;
+            Movement(move, true);
+        } else
+        {
+            move = Vector2.zero;
+            Movement(move, true);
+        }
+
+
+       
+        
+
+
+        
     }
 
     void Movement(Vector2 move, bool yMovement)
     {
+
+        if(yMovement)
+        {
+            print(move);
+        }
+
         float distance = move.magnitude;
 
         if (distance > minMoveDistance)

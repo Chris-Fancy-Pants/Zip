@@ -162,7 +162,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: velocityY
-    m_EventTreshold: 0
+    m_EventTreshold: 0.01
   - m_ConditionMode: 2
     m_ConditionEvent: doingZip
     m_EventTreshold: 0
@@ -456,16 +456,16 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102616253174390820}
-    m_Position: {x: 108, y: 192, z: 0}
+    m_Position: {x: 120, y: 216, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102535501862785608}
-    m_Position: {x: 240, y: 384, z: 0}
+    m_Position: {x: 120, y: 444, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102456689921635290}
-    m_Position: {x: 516, y: 96, z: 0}
+    m_Position: {x: 684, y: 444, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102274118200114972}
-    m_Position: {x: 432, y: 252, z: 0}
+    m_Position: {x: 492, y: 552, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 1101725565493550920}
@@ -473,8 +473,8 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 324, y: -156, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_AnyStatePosition: {x: 468, y: 252, z: 0}
+  m_EntryPosition: {x: 360, y: 144, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102616253174390820}

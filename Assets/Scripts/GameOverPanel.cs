@@ -77,15 +77,8 @@ public class GameOverPanel : MonoBehaviour {
 
         Level level = GameObject.Find("Level").GetComponent<Level>();
 
-        GameManager.instance.LoadLevel(level.nextTrial, level.nextTrial);
-       
-
-        
-
-
-
-     
-
+        GameManager.instance.LoadLevel(level.nextTrial, level.nextLevel);
+      
     }
 
 	
