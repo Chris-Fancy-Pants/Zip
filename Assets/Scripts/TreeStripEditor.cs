@@ -2,21 +2,21 @@
 using System.Collections;
 using UnityEditor;
 
-[CustomEditor(typeof(TreeStrip))]
-public class TreeStripEditor : Editor
+[CustomEditor(typeof(ObjectPlacer))]
+public class ObjectPlacerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        TreeStrip myScript = (TreeStrip)target;
-        if (GUILayout.Button("Place Trees"))
+        ObjectPlacer myScript = (ObjectPlacer)target;
+        if (GUILayout.Button("Place Objects"))
         {
-            myScript.PlaceTrees();
+            myScript.PlaceObjects();
         }
-        if (GUILayout.Button("Clear Trees"))
+        if (GUILayout.Button("Clear Objects"))
         {
-            myScript.ClearTrees();
+            myScript.ClearObjects();
         }
     }
 }
