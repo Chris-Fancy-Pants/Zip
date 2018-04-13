@@ -36,7 +36,17 @@ public class ObjectPlacer: MonoBehaviour {
 
                 float scaleModifier = Random.Range(minScaleModifier, maxScaleModifier);
                 obj.transform.localScale *= scaleModifier;
-                
+
+                int flip = Random.Range(0, 2);
+                print("flip: " + flip);
+                if(flip == 1)
+                {
+                    obj.GetComponent<SpriteRenderer>().flipX = true;
+                }
+
+
+
+
                 obj.transform.SetParent(objectHolder);
             }
 
