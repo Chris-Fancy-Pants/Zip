@@ -56,6 +56,12 @@ TagManager:
   - name: Shrubs
     uniqueID: 1319470497
     locked: 0
+  - name: Background Tiles
+    uniqueID: 394438021
+    locked: 0
+  - name: Under Tile Objects
+    uniqueID: 4275537449
+    locked: 0
   - name: Tiles
     uniqueID: 3911653219
     locked: 0

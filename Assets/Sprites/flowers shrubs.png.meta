@@ -1,0 +1,282 @@
+fileFormatVersion: 2
+guid: 28430b34d0b0470458c110d39fa6bb85
+timeCreated: 1523569858
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: flower1
+    21300002: flower2
+    21300004: flower3
+    21300006: flower4
+    21300008: flower5
+    21300010: flower6
+    21300012: flower7
+    21300014: cactus
+    21300016: lovers vine
+    21300018: popsicle tree
+    21300020: sunflower
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 400
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: flower1
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 1680
+        width: 219
+        height: 335
+      alignment: 9
+      pivot: {x: 0.50000024, y: 0.03829218}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flower2
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 1672
+        width: 438
+        height: 367
+      alignment: 9
+      pivot: {x: 0.414803, y: 0.024912322}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flower3
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 1641
+        width: 235
+        height: 388
+      alignment: 9
+      pivot: {x: 0.33025604, y: 0.048967812}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flower4
+      rect:
+        serializedVersion: 2
+        x: 1033
+        y: 1642
+        width: 184
+        height: 392
+      alignment: 9
+      pivot: {x: 0.51398635, y: 0.0076141357}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flower5
+      rect:
+        serializedVersion: 2
+        x: 1270
+        y: 1620
+        width: 473
+        height: 414
+      alignment: 9
+      pivot: {x: 0.38982213, y: 0.0120224515}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flower6
+      rect:
+        serializedVersion: 2
+        x: 1807
+        y: 1658
+        width: 323
+        height: 378
+      alignment: 9
+      pivot: {x: 0.9541537, y: 0.025120972}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: flower7
+      rect:
+        serializedVersion: 2
+        x: 2211
+        y: 1643
+        width: 223
+        height: 374
+      alignment: 9
+      pivot: {x: 0.6327162, y: 0.009720583}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cactus
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 589
+        width: 745
+        height: 995
+      alignment: 9
+      pivot: {x: 0.53676605, y: 0.018253805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: lovers vine
+      rect:
+        serializedVersion: 2
+        x: 897
+        y: 550
+        width: 364
+        height: 1050
+      alignment: 9
+      pivot: {x: 0.5786696, y: 0.016215995}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: popsicle tree
+      rect:
+        serializedVersion: 2
+        x: 1401
+        y: 566
+        width: 417
+        height: 1009
+      alignment: 9
+      pivot: {x: 0.5597138, y: 0.020002352}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sunflower
+      rect:
+        serializedVersion: 2
+        x: 1954
+        y: 569
+        width: 432
+        height: 1013
+      alignment: 9
+      pivot: {x: 0.6066346, y: 0.014523354}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
