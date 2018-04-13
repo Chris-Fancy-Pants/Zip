@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Explosion.cs" />
+     <Compile Include="Assets\Scripts\Fan.cs" />
      <Compile Include="Assets\Scripts\FlyingCreature.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GameOverPanel.cs" />
@@ -84,7 +85,6 @@
      <Compile Include="Assets\Scripts\SteelDoor.cs" />
      <Compile Include="Assets\Scripts\Stomper.cs" />
      <Compile Include="Assets\Scripts\Switch.cs" />
-     <Compile Include="Assets\Scripts\TreeStripEditor.cs" />
      <Compile Include="Assets\Scripts\WoodenBox.cs" />
      <Compile Include="Assets\Scripts\YellowSpikeBall.cs" />
      <Compile Include="Assets\Tilemap\Brushes\Tint Brush Smooth\Scripts\TintTextureGenerator.cs" />
