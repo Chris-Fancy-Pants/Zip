@@ -6,7 +6,7 @@ using DigitalRuby.LightningBolt;
 
 public class Player : MonoBehaviour {
 
-
+    public bool controller = true;
 
     [Header("Player Speeds")]
     public float moveSpeed = 10f;
@@ -314,8 +314,14 @@ public class Player : MonoBehaviour {
 
 
 
-
-        HandleIndicatorMovement();
+        if (controller)
+        {
+            HandleIndicatorMovementOld();
+        }
+        else
+        {
+            HandleIndicatorMovement();
+        }
 
         if (zipIndicatorOverObject)
         {
